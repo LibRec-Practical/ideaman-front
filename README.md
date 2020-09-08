@@ -1,4 +1,4 @@
-# my-project
+# ideaman-front
 
 ## Project setup
 ```
