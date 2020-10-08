@@ -3,6 +3,10 @@
         "dev": "http://localhost:3000/",
         "prod": "http://rs.lalxyy.me:11220/"
     },
+    "dcp_url": {
+        "dev": "http://localhost:7000/",
+        "prod": "http://localhost:7000/"
+    },
     "login_left_desc": {
         "cn": "一个建立科研网络的社区，寻找您的潜在研究机会。",
         "en": "A community to build research network, finding your potential research opportunities."
