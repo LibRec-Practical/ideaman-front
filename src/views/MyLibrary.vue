@@ -85,7 +85,14 @@ export default {
       paper_id: [],
 
       currentIndex: 0,
-      currentPaper: {},
+      currentPaper:
+      {
+        title: '',
+        authors: [],
+        tags: [],
+        abstract: '',
+        keywords: []
+      },
       closeDetailFlag: true,
       modifyMode: false,
       samplePaper: paperSample,
@@ -277,9 +284,5 @@ export default {
 }
 .top-button {
   margin-left: 10px;
-}
-.paging {
-  float: left;
-  margin-top: 10px;
 }
 </style>
