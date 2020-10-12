@@ -1,64 +1,67 @@
 <template>
-  <div class="container">
-    <div class="left">
-      <Table
-        border
-        stripe
-        :columns="paperTableColumns"
-        :show-header="true"
-        :data="nowData"
-        @on-row-click="showPaperDetail"
-      ></Table>
-      <Page
-        :total="dataCount"
-        :page-size="pageSize"
-        @on-change="changepage"
-        @on-page-size-change="_nowPageSize"
-        show-total
-        show-sizer
-        show-elevator
-      />
+  <div>
+    <div class="container" v-if="dataCount">
+      <div class="left">
+        <Table
+          border
+          stripe
+          :columns="paperTableColumns"
+          :show-header="true"
+          :data="nowData"
+          @on-row-click="showPaperDetail"
+        ></Table>
+        <Page
+          :total="dataCount"
+          :page-size="pageSize"
+          @on-change="changepage"
+          @on-page-size-change="_nowPageSize"
+          show-total
+          show-sizer
+          show-elevator
+        />
+      </div>
+      <div class="right">
+        <!-- 右部分：当前点击的论文详情 -->
+        <Card v-show="closeDetailFlag">
+          <!-- 卡片头部 -->
+          <div slot="title">
+            <a style="color:black;" @click="closeDetail">
+              <Icon type="md-close" />
+            </a>
+            <a style="margin-left:10px;color:black;">论文详情</a>
+          </div>
+          <!-- 论文内容 -->
+          <div>
+            <!-- 标题 -->
+            <h3>{{ currentPaper.title }}</h3>
+            <!-- 作者们 -->
+            <p style="margin-top: 10px;">
+              {{
+              authorsLine(currentPaper.authors) }}
+            </p>
+            <!-- 标签 -->
+            <p style="margin-top: 10px;">
+              <Icon type="md-pricetag" style="margin-right: 10px;" />
+              <Tag v-for="t in currentPaper.tags" :key="t">{{ t }}</Tag>
+            </p>
+            <!-- 摘要 -->
+            <p style="margin-top: 10px;">{{ currentPaper.abstract }}</p>
+            <!-- 论文PDF 缩略图 -->
+            <img :src="samplePaper" alt="Paper Thumbnails" style="max-width: 100%; margin-top: 10px;" />
+            <!-- 关键词 -->
+            <p style="margin-top: 10px;">
+              关键词：{{
+              keywordsLine(currentPaper.keywords)
+              }}
+            </p>
+            <Divider />
+            <!-- 引用数据 -->
+            <p>引用数据：</p>
+          </div>
+        </Card>
+      </div>
     </div>
-    <div class="right">
-      <!-- 右部分：当前点击的论文详情 -->
-      <Card v-show="closeDetailFlag">
-        <!-- 卡片头部 -->
-        <div slot="title">
-          <a style="color:black;" @click="closeDetail">
-            <Icon type="md-close" />
-          </a>
-          <a style="margin-left:10px;color:black;">论文详情</a>
-        </div>
-        <!-- 论文内容 -->
-        <div>
-          <!-- 标题 -->
-          <h3>{{ currentPaper.title }}</h3>
-          <!-- 作者们 -->
-          <p style="margin-top: 10px;">
-            {{
-            authorsLine(currentPaper.authors) }}
-          </p>
-          <!-- 标签 -->
-          <p style="margin-top: 10px;">
-            <Icon type="md-pricetag" style="margin-right: 10px;" />
-            <Tag v-for="t in currentPaper.tags" :key="t">{{ t }}</Tag>
-          </p>
-          <!-- 摘要 -->
-          <p style="margin-top: 10px;">{{ currentPaper.abstract }}</p>
-          <!-- 论文PDF 缩略图 -->
-          <img :src="samplePaper" alt="Paper Thumbnails" style="max-width: 100%; margin-top: 10px;" />
-          <!-- 关键词 -->
-          <p style="margin-top: 10px;">
-            关键词：{{
-            keywordsLine(currentPaper.keywords)
-            }}
-          </p>
-          <Divider />
-          <!-- 引用数据 -->
-          <p>引用数据：</p>
-        </div>
-      </Card>
-    </div>
+    <div v-else><h1 style="text-align:center;">您还未收藏过论文......</h1></div>
   </div>
 </template>
 
