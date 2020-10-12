@@ -76,13 +76,33 @@ export default {
     }
   },
   methods: {
+    checkCompelete () {
+      if (this.registrationForm.username === '' || this.registrationForm.name === '' || this.registrationForm.password === '' || this.registrationForm.email === '') {
+        return false
+      }
+      return true
+    },
+    checkPassword () {
+      if (this.registrationForm.password === this.registrationForm.passwordConfirmed) {
+        return true
+      }
+      return false
+    },
     async registerSubmit () {
       try {
+        // 检查表单
+        if (!this.checkCompelete()) {
+          throw new Error('请填写完整！')
+        } else if (!this.checkPassword()) {
+          throw new Error('两次密码不同，请检查！')
+        }
+        // 注册
         const res = await RegisterApi(this.registrationForm)
         if (res.code === 2) {
-          this.$Message.warn('注册失败（该用户名已经被注册！）')
+          this.$Message.error('注册失败（该用户名已经被注册！）')
         } else if (res.code === 3) {
           this.$Message.error('注册失败（服务器出错，请联系管理员排查问题）')
+          this.$Message.error(res.message)
         } else if (res.code === 0) {
           this.$Message.success('注册成功（请在新打开的页面登录）')
           this.$router.push({ path: '/login' })
