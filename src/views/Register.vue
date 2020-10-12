@@ -9,13 +9,13 @@
       :label-width="200"
     >
       <FormItem label="用户名">
-        <Input v-model="registrationForm.username" placeholder="在 Ideaman 整个平台中的唯一名字" />
+        <Input v-model="registrationForm.username" placeholder="在 Ideaman 整个平台中的唯一名字，1到9位数字字母下划线" />
       </FormItem>
       <FormItem label="姓名" class="register-element">
         <Input v-model="registrationForm.name" placeholder="您在出版物中使用的名字；如果经常发表英文文献，可使用英文名" />
       </FormItem>
       <FormItem label="密码" class="register-element">
-        <Input type="password" v-model="registrationForm.password" placeholder="密码" />
+        <Input type="password" v-model="registrationForm.password" placeholder="密码，6到20位数字字母下划线" />
       </FormItem>
       <FormItem label="确认密码" class="register-element">
         <Input type="password" v-model="registrationForm.passwordConfirmed" placeholder="再次输入密码" />
@@ -76,26 +76,42 @@ export default {
     }
   },
   methods: {
-    checkCompelete () {
-      if (this.registrationForm.username === '' || this.registrationForm.name === '' || this.registrationForm.password === '' || this.registrationForm.email === '') {
-        return false
+    checkUsername () {
+      const userReg = /^[a-zA-Z0-9_-]{1,9}$/
+      if (!userReg.test(this.registrationForm.username)) {
+        throw new Error('用户名不符合要求！')
       }
-      return true
+    },
+    checkName () {
+      if (this.registrationForm.name.trim() === '') {
+        throw new Error('请输入姓名！')
+      }
     },
     checkPassword () {
-      if (this.registrationForm.password === this.registrationForm.passwordConfirmed) {
-        return true
+      const userReg = /^[a-zA-Z0-9_-]{6,20}$/
+      if (!userReg.test(this.registrationForm.password)) {
+        throw new Error('密码不符合要求！')
       }
-      return false
+    },
+    checkEmail () {
+      const userReg = /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
+      if (!userReg.test(this.registrationForm.email)) {
+        throw new Error('请输入正确的邮箱！')
+      }
+    },
+    checkPasswordComfirm () {
+      if (!(this.registrationForm.password === this.registrationForm.passwordConfirmed)) {
+        throw new Error('两次密码输入不同，请检查！')
+      }
     },
     async registerSubmit () {
       try {
         // 检查表单
-        if (!this.checkCompelete()) {
-          throw new Error('请填写完整！')
-        } else if (!this.checkPassword()) {
-          throw new Error('两次密码不同，请检查！')
-        }
+        this.checkUsername()
+        this.checkName()
+        this.checkPassword()
+        this.checkEmail()
+        this.checkPasswordComfirm()
         // 注册
         const res = await RegisterApi(this.registrationForm)
         if (res.code === 2) {
