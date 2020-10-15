@@ -73,7 +73,7 @@ export default {
           password: this.formLogin.password
         })
         if (res.code === 0) {
-        // localStorage 存储
+          // localStorage 存储
           window.localStorage.setItem(
             'ideaman_info',
             JSON.stringify(res.data[0])
