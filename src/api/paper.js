@@ -2,15 +2,21 @@ import {
   axios
 } from '../utils/request'
 
-export function getPaperInfo (parameter) {
+export function getPaperInfo({ id }) {
   return axios({
-    url: '/paperinfo',
-    method: 'get',
-    data: parameter
+    url: '/paperinfo?id=' + id,
+    method: 'get'
   })
 }
 
-export function deletePaper (parameter) {
+export function getRelatedPaper({ paperId }) {
+  return axios({
+    url: '/relatedPaper?paper_id=' + paperId,
+    method: 'get'
+  })
+}
+
+export function deletePaper(parameter) {
   return axios({
     url: '/paper/delete',
     method: 'del',
@@ -18,7 +24,7 @@ export function deletePaper (parameter) {
   })
 }
 
-export function addPaper (parameter) {
+export function addPaper(parameter) {
   return axios({
     url: '/paper',
     method: 'post',
@@ -26,7 +32,7 @@ export function addPaper (parameter) {
   })
 }
 
-export function updatePaper (parameter) {
+export function updatePaper(parameter) {
   return axios({
     url: '/paper',
     method: 'put',

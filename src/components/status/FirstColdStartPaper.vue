@@ -4,7 +4,7 @@
       <div @click="onPaperTapped">
         <p slot="title">
           <Icon type="md-star" />
-          你关注的用户 {{user}} 发表了文章
+          用户 {{user}} 发表了文章
         </p>
         <div slot="extra">
           <p v-if="type === 'arxiv'">
@@ -29,7 +29,7 @@
 
 <script>
 export default {
-  name: 'FollowedPeoplePaper',
+  name: 'FirstColdStartPaper',
   props: [
     'id',
     'type',

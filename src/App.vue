@@ -6,10 +6,8 @@
           <!-- 三大主页面 -->
           <i-col span="18">
             <Menu mode="horizontal" theme="dark" @on-select="selectMenu">
-              <div class="nav-left">IdeaMan</div>
-              <MenuItem name="/">
-                <Icon type="ios-paper" />信息流
-              </MenuItem>
+              <div class="nav-left" @click="onLogoTapped">IdeaMan</div>
+              <MenuItem name="/"> <Icon type="ios-paper" />信息流 </MenuItem>
               <MenuItem name="/mylibrary">
                 <Icon type="ios-paper" />我保存的文献
               </MenuItem>
@@ -53,75 +51,86 @@
         </Row>
       </Header>
 
-      <Content style="padding: 20px 50px;">
+      <Content style="padding: 20px 50px">
         <router-view></router-view>
       </Content>
 
-      <Footer style="display:flex;justify-content:center;align-items:center;">
-        {{footer.front}}
+      <Footer
+        style="display: flex; justify-content: center; align-items: center"
+      >
+        {{ footer.front }}
         <a :href="footer.href" target="_blank">
-          <i>{{footer.librec_version}}</i>
+          <i>{{ footer.librec_version }}</i>
         </a>
-        <span>：{{footer.desc}}</span>
+        <span>：{{ footer.desc }}</span>
       </Footer>
     </Layout>
   </div>
 </template>
 
 <script>
-import config from './config'
+import config from "./config";
 
 export default {
-  name: 'app',
-  beforeCreate () {
-    const userinfo = JSON.parse(window.localStorage.getItem('ideaman_info'))
-    const ideamanToken = window.localStorage.getItem('ideaman_token')
+  name: "app",
+  beforeCreate() {
+    const userinfo = JSON.parse(window.localStorage.getItem("ideaman_info"));
+    const ideamanToken = window.localStorage.getItem("ideaman_token");
 
-    this.$store.commit('authorize', {
+    this.$store.commit("authorize", {
       name: userinfo.name,
       username: userinfo.username,
       avatar: userinfo.avatar,
-      token: ideamanToken
-    })
+      token: ideamanToken,
+    });
   },
-  data () {
+  data() {
     return {
       footer: {
         front: config.footer.front,
         href: config.footer.href,
         librec_version: config.footer.librec_version,
-        desc: config.footer.desc
-      }
-    }
+        desc: config.footer.desc,
+      },
+    };
   },
   computed: {
-    isAuthorized () {
-      return this.$store.getters.isAuthorized
+    isAuthorized() {
+      return this.$store.getters.isAuthorized;
     },
-    currentName () {
-      return this.$store.state.auth.name || '(Name Unknown)'
-    }
+    currentName() {
+      return this.$store.state.auth.name || "(Name Unknown)";
+    },
   },
   methods: {
-    selectMenu (name) {
-      if (name === '/logout') {
-        this.logout()
+    onLogoTapped() {
+      const homeRouteName = "Home";
+      const { name } = this.$route;
+      if (name === homeRouteName) {
+        return;
       } else {
-        this.$router.push({ path: name })
+        this.$router.push({ name: "Home" });
+      }
+    },
+    selectMenu(name) {
+      if (name === "/logout") {
+        this.logout();
+      } else {
+        this.$router.push({ path: name });
       }
     },
 
-    logout () {
-      this.$store.commit('removeAuthorization', {})
-      window.localStorage.removeItem('ideaman_info')
-      window.localStorage.removeItem('ideaman_token')
+    logout() {
+      this.$store.commit("removeAuthorization", {});
+      window.localStorage.removeItem("ideaman_info");
+      window.localStorage.removeItem("ideaman_token");
       // window.localStorage.removeItem("auth_name");
       // window.localStorage.removeItem("auth_username");
       // window.localStorage.removeItem("auth_token");
-      this.$router.push('/login')
-    }
-  }
-}
+      this.$router.push("/login");
+    },
+  },
+};
 </script>
 
 <style scoped>

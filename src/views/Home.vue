@@ -4,6 +4,19 @@
       <i-col span="16">
         <!-- 展示区域 -->
         <div v-for="s in statuses" :key="s.id" style="margin-bottom: 20px;">
+          <FirstColdStartPaper
+            v-if="s.status_type === 'first_cold_paper'"
+            :id="s.id"
+            :type="s.type"
+            :authors="s.authors"
+            :user="s.user"
+            :title="s.title"
+            :abstract="s.abstract"
+            :tags="s.tags"
+            :link="s.link"
+            :keywords="s.keywords"
+            :thumbnail-url="samplePaper"
+          />
           <FollowedPeoplePaper
             v-if="s.status_type === 'followed_people_paper'"
             :id="s.id"
@@ -56,10 +69,12 @@
             <Icon type="md-link" />人脉圈
           </p>
           <CellGroup>
-            <Cell v-for="c in connections" :key="c.id">
-              <Badge :count="c.badge" slot="extra" />
+            <!-- <Cell v-for="c in connections" :key="c.id"> -->
+              <!-- <Badge :count="c.badge" slot="extra" /> -->
+            <Cell>
               <!-- <img :src="c.userAvatarURL" style="width: 15px; height: 15px;" alt="Avatar" class="user-avatar" /> -->
-              {{ c.name }}
+              <!-- {{ c.name }} -->
+              很抱歉该服务暂未开启
             </Cell>
           </CellGroup>
         </Card>
@@ -84,6 +99,7 @@
 // @ is an alias to /src
 import paperSample from '@/assets/1806.07822v2.pdf.jpg'
 import defaultUserIcon from '@/assets/defaultusericon.png'
+import FirstColdStartPaper from '@/components/status/FirstColdStartPaper'
 import FollowedPeoplePaper from '@/components/status/FollowedPeoplePaper'
 import FollowedPeopleStatus from '@/components/status/FollowedPeopleStatus'
 import RecommendedPaper from '@/components/status/RecommendedPaper'
@@ -95,6 +111,7 @@ import { firstPaint as FirstPaintApi } from '../api/firstPaint'
 export default {
   name: 'Home',
   components: {
+    FirstColdStartPaper,
     RecommendedStatus,
     RecommendedPaper,
     FollowedPeopleStatus,
@@ -124,6 +141,9 @@ export default {
       try {
         // 这里是首屏数据
         const firstPaintRes = await FirstPaintApi()
+        console.log('************************')
+        console.dir(firstPaintRes)
+        console.log('************************')
         if (firstPaintRes.code === 0) {
           this.statuses = firstPaintRes.data
         }
