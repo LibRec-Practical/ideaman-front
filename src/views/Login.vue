@@ -49,6 +49,7 @@
 
 <script>
 import { login as LoginApi } from '../api/sign'
+import { sendEventData as sendEventDataApi } from '../utils/dcpRequest'
 import config from '../config'
 
 export default {
@@ -89,13 +90,17 @@ export default {
             token: ideamanToken
           })
           this.$Message.success('登录成功。')
+
+          sendEventDataApi({event_type: "Online", event: "login", user: res.data[0]})
+
           this.$router.push({ path: '/' })
         }
       } catch (e) {
         console.log(e)
         this.$Message.error('登录失败：' + e)
       }
-    }
+    },
+
   }
 }
 </script>

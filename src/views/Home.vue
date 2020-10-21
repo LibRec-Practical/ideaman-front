@@ -128,6 +128,8 @@ export default {
   mounted () {
     this.getFirstPaintData()
     this.getConnections()
+
+    // sendEventDataApi({event_type: "Online", event: "$PageView"})
   },
 
   computed: {

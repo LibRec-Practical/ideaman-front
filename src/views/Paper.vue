@@ -72,7 +72,7 @@
     <Row class="row-distance">
       <i-col span="24">
         <h1>猜你喜欢</h1>
-        <div class="box-in-detail">登陆后可查看（该服务暂未开启）</div>
+        <!-- <div class="box-in-detail">登陆后可查看（该服务暂未开启）</div> -->
         <div class="box-in-detail">
           <PaperRelatedRecs :papers="relatedPapers" />
         </div>
@@ -83,18 +83,29 @@
 
 <script>
 import paperSample from "@/assets/1806.07822v2.pdf.jpg";
-import { getPaperInfo as getPaperInfoApi, getRelatedPaper as getRelatedPaperApi} from "../api/paper";
+import {
+  getPaperInfo as getPaperInfoApi,
+  getRelatedPaper as getRelatedPaperApi,
+} from "../api/paper";
 import { addLibrary as addLibraryApi } from "../api/library";
-import PaperRelatedRecs from "../components/status/PaperRelatedRecs"
+import PaperRelatedRecs from "../components/status/PaperRelatedRecs";
+import { sendEventData as sendEventDataApi } from "../utils/dcpRequest";
+
 export default {
   name: "Paper",
-  components:{
-    PaperRelatedRecs
+  components: {
+    PaperRelatedRecs,
   },
   mounted() {
-    const paperId = this.$route.params.arxivId
+    const paperId = this.$route.params.arxivId;
     this.getPaperInfo(paperId);
     this.getRelatedPaper(paperId);
+
+    sendEventDataApi({
+      event_type: "Online",
+      event: "$ItemView",
+      paperId: paperId,
+    });
   },
   data() {
     return {
@@ -123,11 +134,15 @@ export default {
     async getRelatedPaper(paperId) {
       try {
         const res = await getRelatedPaperApi({ paperId });
+        console.log("********offline***********");
+        console.log(res);
+        console.log("*******************");
+
         if (res.code === 0) {
           this.relatedPaper = res.data;
         }
       } catch (e) {
-        this.$Message.error(e);
+        this.$Message.error("暂无法获取猜你喜欢离线推荐");
       }
     },
     async onCollectTapped() {
@@ -146,7 +161,9 @@ export default {
       }
     },
     async onDownloadTapped() {
-      console.log(this.paper.link.split("/")[this.paper.link.split("/").length - 1]);
+      console.log(
+        this.paper.link.split("/")[this.paper.link.split("/").length - 1]
+      );
       const pdfLink =
         "http://arxiv.org/pdf/" +
         this.paper.link.split("/")[this.paper.link.split("/").length - 1];
