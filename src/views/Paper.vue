@@ -96,6 +96,13 @@ export default {
   components: {
     PaperRelatedRecs
   },
+  data () {
+    return {
+      paper: {},
+      relatedPapers: [],
+      thumbnailURL: paperSample
+    }
+  },
   mounted () {
     const paperId = this.$route.params.arxivId
     this.getPaperInfo(paperId)
@@ -106,13 +113,6 @@ export default {
       event: '$ItemView',
       paperId: paperId
     })
-  },
-  data () {
-    return {
-      paper: {},
-      relatedPapers: [],
-      thumbnailURL: paperSample
-    }
   },
   computed: {
     keywordsLine () {
@@ -134,12 +134,8 @@ export default {
     async getRelatedPaper (paperId) {
       try {
         const res = await getRelatedPaperApi({ paperId })
-        console.log('********offline***********')
-        console.log(res)
-        console.log('*******************')
-
         if (res.code === 0) {
-          this.relatedPaper = res.data
+          this.relatedPapers = res.data
         }
       } catch (e) {
         this.$Message.error('暂无法获取猜你喜欢离线推荐')

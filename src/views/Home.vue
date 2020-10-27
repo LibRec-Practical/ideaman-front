@@ -143,7 +143,7 @@ export default {
       try {
         // 这里是首屏数据
         const firstPaintRes = await FirstPaintApi()
-        console.log('************************')
+        console.log('*********首屏数据***************')
         console.dir(firstPaintRes)
         console.log('************************')
         if (firstPaintRes.code === 0) {

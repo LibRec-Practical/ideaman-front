@@ -38,7 +38,8 @@ export default new Vuex.Store({
   },
   getters: {
     isAuthorized (state) {
-      return !!state.auth.jsonAuthToken
+      // return !!state.auth.jsonAuthToken
+      return !!window.localStorage.getItem('ideaman_token')
     }
   },
   actions: {
