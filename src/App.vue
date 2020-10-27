@@ -76,13 +76,14 @@ export default {
   beforeCreate () {
     const userinfo = JSON.parse(window.localStorage.getItem('ideaman_info'))
     const ideamanToken = window.localStorage.getItem('ideaman_token')
-
-    this.$store.commit('authorize', {
-      name: userinfo.name,
-      username: userinfo.username,
-      avatar: userinfo.avatar,
-      token: ideamanToken
-    })
+    if (userinfo) {
+      this.$store.commit('authorize', {
+        name: userinfo.name,
+        username: userinfo.username,
+        avatar: userinfo.avatar,
+        token: ideamanToken
+      })
+    }
   },
   data () {
     return {
@@ -125,6 +126,9 @@ export default {
 </script>
 
 <style scoped>
+.layout{
+  min-width:1200px;
+}
 .header-home {
   color: white;
   font-size: 22px;
