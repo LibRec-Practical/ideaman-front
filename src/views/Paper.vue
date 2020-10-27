@@ -71,7 +71,7 @@
     </Row>
     <Row class="row-distance">
       <i-col span="24">
-        <h1>猜你喜欢</h1>
+        <h1>相关推荐</h1>
         <!-- <div class="box-in-detail">登陆后可查看（该服务暂未开启）</div> -->
         <div class="box-in-detail">
           <PaperRelatedRecs :papers="relatedPapers" />
