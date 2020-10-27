@@ -19,7 +19,7 @@
               </Input>
             </div>
             <div class="login-input">
-              <Input placeholder="密码" class="login-form-element" v-model="formLogin.password">
+              <Input placeholder="密码" class="login-form-element" v-model="formLogin.password" type="password">
                 <Icon type="ios-key" slot="prefix" />
               </Input>
             </div>
@@ -94,6 +94,8 @@ export default {
           sendEventDataApi({event_type: "Online", event: "login", user: res.data[0]})
 
           this.$router.push({ path: '/' })
+        } else {
+          this.$Message.error('登陆失败：密码错误或账号不存在！')
         }
       } catch (e) {
         console.log(e)

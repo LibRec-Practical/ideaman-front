@@ -134,6 +134,9 @@ export default {
 </script>
 
 <style scoped>
+.layout{
+  min-width:1200px;
+}
 .header-home {
   color: white;
   font-size: 22px;
