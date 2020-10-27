@@ -13,9 +13,9 @@
 
 <script>
 export default {
-  name: "PaperRelatedRecs",
-  props: ["papers"],
-};
+  name: 'PaperRelatedRecs',
+  props: ['papers']
+}
 </script>
 
 <style scoped>

@@ -1,6 +1,6 @@
 import overallConfig from '../config'
 
-function sendEventData(data) {
+function sendEventData (data) {
   const xhr = new XMLHttpRequest()
   xhr.open('post', `${overallConfig.dcp_url.dev}collect/event`, true)
 
@@ -9,8 +9,7 @@ function sendEventData(data) {
   xhr.send(`data=${JSON.stringify(data)}`)
 }
 
-
-function getParams() {
+function getParams () {
   return {
     // distinct_id: "2b0a6f51a3cd6775", // 这次事件的唯一标识符，用于确定此次事件
     // timeStamp: 1434556935000, // 上报时间戳
@@ -40,5 +39,6 @@ function getParams() {
 }
 
 export {
-  sendEventData
+  sendEventData,
+  getParams
 }

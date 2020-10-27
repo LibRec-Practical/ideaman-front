@@ -91,7 +91,7 @@ export default {
           })
           this.$Message.success('登录成功。')
 
-          sendEventDataApi({event_type: "Online", event: "login", user: res.data[0]})
+          sendEventDataApi({ event_type: 'Online', event: 'login', user: res.data[0] })
 
           this.$router.push({ path: '/' })
         } else {
@@ -101,7 +101,7 @@ export default {
         console.log(e)
         this.$Message.error('登录失败：' + e)
       }
-    },
+    }
 
   }
 }

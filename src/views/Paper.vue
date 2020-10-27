@@ -82,98 +82,98 @@
 </template>
 
 <script>
-import paperSample from "@/assets/1806.07822v2.pdf.jpg";
+import paperSample from '@/assets/1806.07822v2.pdf.jpg'
 import {
   getPaperInfo as getPaperInfoApi,
-  getRelatedPaper as getRelatedPaperApi,
-} from "../api/paper";
-import { addLibrary as addLibraryApi } from "../api/library";
-import PaperRelatedRecs from "../components/status/PaperRelatedRecs";
-import { sendEventData as sendEventDataApi } from "../utils/dcpRequest";
+  getRelatedPaper as getRelatedPaperApi
+} from '../api/paper'
+import { addLibrary as addLibraryApi } from '../api/library'
+import PaperRelatedRecs from '../components/status/PaperRelatedRecs'
+import { sendEventData as sendEventDataApi } from '../utils/dcpRequest'
 
 export default {
-  name: "Paper",
+  name: 'Paper',
   components: {
-    PaperRelatedRecs,
+    PaperRelatedRecs
   },
-  mounted() {
-    const paperId = this.$route.params.arxivId;
-    this.getPaperInfo(paperId);
-    this.getRelatedPaper(paperId);
+  mounted () {
+    const paperId = this.$route.params.arxivId
+    this.getPaperInfo(paperId)
+    this.getRelatedPaper(paperId)
 
     sendEventDataApi({
-      event_type: "Online",
-      event: "$ItemView",
-      paperId: paperId,
-    });
+      event_type: 'Online',
+      event: '$ItemView',
+      paperId: paperId
+    })
   },
-  data() {
+  data () {
     return {
       paper: {},
       relatedPapers: [],
-      thumbnailURL: paperSample,
-    };
+      thumbnailURL: paperSample
+    }
   },
   computed: {
-    keywordsLine() {
-      return this.paper.keywords ? this.paper.keywords.join(", ") : "";
-    },
+    keywordsLine () {
+      return this.paper.keywords ? this.paper.keywords.join(', ') : ''
+    }
   },
   methods: {
-    async getPaperInfo(id) {
+    async getPaperInfo (id) {
       try {
-        const res = await getPaperInfoApi({ id });
+        const res = await getPaperInfoApi({ id })
         if (res.code === 0) {
-          this.paper = res.data;
+          this.paper = res.data
         }
       } catch (e) {
-        this.$Message.error(e);
+        this.$Message.error(e)
       }
     },
 
-    async getRelatedPaper(paperId) {
+    async getRelatedPaper (paperId) {
       try {
-        const res = await getRelatedPaperApi({ paperId });
-        console.log("********offline***********");
-        console.log(res);
-        console.log("*******************");
+        const res = await getRelatedPaperApi({ paperId })
+        console.log('********offline***********')
+        console.log(res)
+        console.log('*******************')
 
         if (res.code === 0) {
-          this.relatedPaper = res.data;
+          this.relatedPaper = res.data
         }
       } catch (e) {
-        this.$Message.error("暂无法获取猜你喜欢离线推荐");
+        this.$Message.error('暂无法获取猜你喜欢离线推荐')
       }
     },
-    async onCollectTapped() {
+    async onCollectTapped () {
       try {
-        const { id } = JSON.parse(window.localStorage.getItem("ideaman_info"));
+        const { id } = JSON.parse(window.localStorage.getItem('ideaman_info'))
 
-        const res = await addLibraryApi({ userId: id, paperId: this.paper.id });
-        console.log(res);
+        const res = await addLibraryApi({ userId: id, paperId: this.paper.id })
+        console.log(res)
         if (res.code === 0) {
-          this.$Message.success("收藏成功");
+          this.$Message.success('收藏成功')
         } else {
-          this.$Message.error(res.message);
+          this.$Message.error(res.message)
         }
       } catch (e) {
-        this.$Message.error(e);
+        this.$Message.error(e)
       }
     },
-    async onDownloadTapped() {
+    async onDownloadTapped () {
       console.log(
-        this.paper.link.split("/")[this.paper.link.split("/").length - 1]
-      );
+        this.paper.link.split('/')[this.paper.link.split('/').length - 1]
+      )
       const pdfLink =
-        "http://arxiv.org/pdf/" +
-        this.paper.link.split("/")[this.paper.link.split("/").length - 1];
-      window.open(pdfLink, "_blank");
+        'http://arxiv.org/pdf/' +
+        this.paper.link.split('/')[this.paper.link.split('/').length - 1]
+      window.open(pdfLink, '_blank')
     },
-    async onFeedbackTapped() {
-      this.$Message.success("点击反馈,暂不支持该服务");
-    },
-  },
-};
+    async onFeedbackTapped () {
+      this.$Message.success('点击反馈,暂不支持该服务')
+    }
+  }
+}
 </script>
 
 <style scoped>
