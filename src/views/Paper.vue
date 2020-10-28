@@ -108,9 +108,12 @@ export default {
     this.getPaperInfo(paperId)
     this.getRelatedPaper(paperId)
 
+    const { id } = JSON.parse(window.localStorage.getItem('ideaman_info'))
+
     sendEventDataApi({
       event_type: 'Online',
       event: '$ItemView',
+      userId: id,
       paperId: paperId
     })
   },

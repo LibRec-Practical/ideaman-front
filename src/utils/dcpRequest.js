@@ -5,8 +5,70 @@ function sendEventData (data) {
   xhr.open('post', `${overallConfig.dcp_url.dev}collect/event`, true)
 
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+  const postData = handleData(data)
   // post 需要传递参数
-  xhr.send(`data=${JSON.stringify(data)}`)
+  xhr.send(`data=${JSON.stringify(postData)}`)
+}
+
+function handleData (data) {
+  const postData = {}
+  postData.timestamp = new Date().getTime()
+  postData.distinct_id = uuid()
+  postData.event_type = uuid()
+  postData.event = uuid()
+  postData.project = data?.project ? data.project : 'ideaman'
+  postData.properties = data
+  postData.system = getSystemData()
+  postData.extra_para = getExpendParams(data)
+  // Object.defineProperty(postData, 'timestamp', { value: new Date().getTime() })
+  // Object.defineProperty(postData, 'distinct_id', { value: uuid() })
+  // Object.defineProperty(postData, 'event_type', { value: data?.event_type })
+  // Object.defineProperty(postData, 'event', { value: data?.event })
+  // Object.defineProperty(postData, 'project', { value: data?.project ? data.project : 'ideaman' })
+  // Object.defineProperty(postData, 'properties', { value: data })
+  // Object.defineProperty(postData, 'system', { value: getSystemData() })
+  // Object.defineProperty(postData, 'extra_para', { value: getExpendParams(data) })
+  return postData
+}
+
+function getSystemData () {
+  const systemData = {}
+  systemData.$ip = ''
+  systemData.$app_version = '0.1.0'
+  systemData.$wifi = ''
+  systemData.$province = ''
+  systemData.$city = ''
+  systemData.$user_agent = ''
+  systemData.$screen_width = ''
+  systemData.$screen_height = ''
+
+  // Object.defineProperty(systemData, '$ip', { value: '' })
+  // Object.defineProperty(systemData, '$app_version', { value: '0.1.0' })
+  // Object.defineProperty(systemData, '$wifi', { value: '1' })
+  // Object.defineProperty(systemData, '$province', { value: '' })
+  // Object.defineProperty(systemData, '$city', { value: '' })
+  // Object.defineProperty(systemData, '$user_agent', { value: '' })
+  // Object.defineProperty(systemData, '$screen_width', { value: '' })
+  // Object.defineProperty(systemData, '$screen_height', { value: '' })
+  return systemData
+}
+
+function getExpendParams (data) {
+  return data?.extra_para ? data.extra_para : {}
+}
+
+function uuid () {
+  const s = []
+  const hexDigits = '0123456789abcdef'
+  for (let i = 0; i < 36; i++) {
+    s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1)
+  }
+  s[14] = '4' // bits 12-15 of the time_hi_and_version field to 0010
+  s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1) // bits 6-7 of the clock_seq_hi_and_reserved to 01
+  s[8] = s[13] = s[18] = s[23] = '-'
+
+  const uuid = s.join('')
+  return uuid
 }
 
 function getParams () {
