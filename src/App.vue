@@ -76,13 +76,14 @@ export default {
   beforeCreate () {
     const userinfo = JSON.parse(window.localStorage.getItem('ideaman_info'))
     const ideamanToken = window.localStorage.getItem('ideaman_token')
-
-    this.$store.commit('authorize', {
-      name: userinfo.name,
-      username: userinfo.username,
-      avatar: userinfo.avatar,
-      token: ideamanToken
-    })
+    if (userinfo) {
+      this.$store.commit('authorize', {
+        name: userinfo.name,
+        username: userinfo.username,
+        avatar: userinfo.avatar,
+        token: ideamanToken
+      })
+    }
   },
   data () {
     return {

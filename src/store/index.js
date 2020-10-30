@@ -38,8 +38,9 @@ export default new Vuex.Store({
   },
   getters: {
     isAuthorized (state) {
-      // return !!state.auth.jsonAuthToken
-      return !!window.localStorage.getItem('ideaman_token')
+      return !!state.auth.jsonAuthToken
+      // return !!window.localStorage.getItem('ideaman_token')
+      // 不知道为什么，这个值在页面刷新后才变化，导致登录后如果没刷新，路由守卫认为你还是没有资格
     }
   },
   actions: {
