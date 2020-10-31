@@ -3,6 +3,8 @@ import axios from 'axios'
 import overallConfig from '../config'
 import store from '../store'
 
+axios.defaults.withCredentials = true // 允许携带cookie
+
 const axiosInstance = axios.create({
   baseURL: overallConfig.url.dev
 })

@@ -17,3 +17,19 @@ export function register (parameter) {
     data: parameter
   })
 }
+
+export function sendVerificationCode (parameter) {
+  return axios({
+    url: '/sendVerificationCode',
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function forgetPassword (parameter) {
+  return axios({
+    url: '/forgetPassword',
+    method: 'post',
+    data: parameter
+  })
+}
