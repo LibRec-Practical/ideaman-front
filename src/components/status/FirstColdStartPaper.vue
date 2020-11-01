@@ -12,15 +12,18 @@
             <Icon type="ios-more" />
           </p>
         </div>
+        <!-- 标题 -->
         <h3>
           <a :href="link">{{ title }}</a>
         </h3>
         <div>{{ abstractStriped }}</div>
+        <!-- 标签 -->
         <div>
           <Button v-for="t in tags" :key="t" type="text" icon="md-pricetag">{{ t }}</Button>
         </div>
-        <div>
-          <img style="margin-top: 10px; width: 100%;" :src="thumbnailUrl" alt="Paper Thumbnails" />
+        <!-- 缩略图 -->
+        <div class="thumbnail-wrapper">
+          <img v-for="thumbnail in thumbnailUrl" :key="thumbnail" class="thumbnail" :src="thumbnail" alt="Paper Thumbnails" />
         </div>
       </div>
     </Card>
@@ -63,4 +66,12 @@ export default {
 </script>
 
 <style scoped>
+.thumbnail-wrapper {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+}
+.thumbnail {
+  height: 12vw;
+}
 </style>

@@ -15,7 +15,7 @@
             :tags="s.tags"
             :link="s.link"
             :keywords="s.keywords"
-            :thumbnail-url="samplePaper"
+            :thumbnail-url="s.thumbnailURL"
           />
           <FollowedPeoplePaper
             v-if="s.status_type === 'followed_people_paper'"

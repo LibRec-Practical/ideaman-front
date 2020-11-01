@@ -62,11 +62,10 @@
         <h1>摘要</h1>
         <Divider />
         <p>{{ paper.abstract }}</p>
-        <img
-          style="margin-top: 10px"
-          :src="thumbnailURL"
-          alt="Paper Thumbnails"
-        />
+        <!-- 缩略图 -->
+        <div class="thumbnail-wrapper">
+          <img v-for="thumbnail in paper.thumbnailURL" :key="thumbnail" class="thumbnail" :src="thumbnail" alt="Paper Thumbnails" />
+        </div>
       </i-col>
     </Row>
     <Row class="row-distance">
@@ -82,7 +81,6 @@
 </template>
 
 <script>
-import paperSample from '@/assets/1806.07822v2.pdf.jpg'
 import {
   getPaperInfo as getPaperInfoApi,
   getRelatedPaper as getRelatedPaperApi
@@ -99,8 +97,7 @@ export default {
   data () {
     return {
       paper: {},
-      relatedPapers: [],
-      thumbnailURL: paperSample
+      relatedPapers: []
     }
   },
   mounted () {
@@ -189,5 +186,14 @@ export default {
 
 .button-width-fixed {
   width: 100%;
+}
+
+.thumbnail-wrapper {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+}
+.thumbnail {
+  height: 18vw;
 }
 </style>

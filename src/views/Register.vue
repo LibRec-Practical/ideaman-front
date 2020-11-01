@@ -77,7 +77,7 @@ export default {
   },
   methods: {
     checkUsername () {
-      const userReg = /^[a-zA-Z0-9_-]{1,9}$/
+      const userReg = /^[a-zA-Z0-9_-]{1,16}$/
       if (!userReg.test(this.registrationForm.username)) {
         throw new Error('用户名不符合要求！')
       }
