@@ -14,8 +14,8 @@ function handleData (data) {
   const postData = {}
   postData.timestamp = new Date().getTime()
   postData.distinct_id = uuid()
-  postData.event_type = uuid()
-  postData.event = uuid()
+  postData.event_type = data.event_type
+  postData.event = data.event
   postData.project = data?.project ? data.project : 'ideaman'
   postData.properties = data
   postData.system = getSystemData()

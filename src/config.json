@@ -4,7 +4,7 @@
         "prod": "http://rs.lalxyy.me:11220/"
     },
     "dcp_url": {
-        "dev": "http://localhost:7000/",
+        "dev": "http://120.53.107.182:7000/",
         "prod": "http://localhost:7000/"
     },
     "login_left_desc": {
