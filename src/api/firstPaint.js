@@ -4,7 +4,7 @@ import {
 
 export function firstPaint (parameter) {
   return axios({
-    url: '/firstPaint',
+    url: '/firstPaint?userId=' + parameter.userId,
     method: 'get',
     data: parameter
   })

@@ -142,9 +142,11 @@ export default {
   methods: {
     async getFirstPaintData () {
       try {
+        const userinfo = JSON.parse(window.localStorage.getItem('ideaman_info'))
+        const userId = userinfo.id
         // 这里是首屏数据
-        const firstPaintRes = await FirstPaintApi()
-        console.log('*********首屏数据***************')
+        const firstPaintRes = await FirstPaintApi({ userId })
+        console.log('*********首屏数据***********')
         console.dir(firstPaintRes)
         console.log('************************')
         if (firstPaintRes.code === 0) {
