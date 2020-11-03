@@ -39,9 +39,15 @@
             >
           </div>
           <div class="button-box">
-            <Button
+            <Button v-if="paperCollected"
               class="button-width-fixed"
-              icon="md-star"
+              icon="ios-star"
+              @click="onCollectTapped"
+              >取消收藏</Button
+            >
+            <Button v-else
+              class="button-width-fixed"
+              icon="ios-star-outline"
               @click="onCollectTapped"
               >收藏</Button
             >
@@ -85,7 +91,7 @@ import {
   getPaperInfo as getPaperInfoApi,
   getRelatedPaper as getRelatedPaperApi
 } from '../api/paper'
-import { addLibrary as addLibraryApi } from '../api/library'
+import { addLibrary as addLibraryApi, deleteLibrary as deleteLibraryApi, isCollected as isCollectedApi } from '../api/library'
 import PaperRelatedRecs from '../components/status/PaperRelatedRecs'
 import { sendEventData as sendEventDataApi } from '../utils/dcpRequest'
 
@@ -97,13 +103,15 @@ export default {
   data () {
     return {
       paper: {},
-      relatedPapers: []
+      relatedPapers: [],
+      paperCollected: false
     }
   },
   mounted () {
     const paperId = this.$route.params.arxivId
     this.getPaperInfo(paperId)
     this.getRelatedPaper(paperId)
+    this.judgePaperCollected()
 
     const { id } = JSON.parse(window.localStorage.getItem('ideaman_info'))
 
@@ -144,13 +152,29 @@ export default {
     async onCollectTapped () {
       try {
         const { id } = JSON.parse(window.localStorage.getItem('ideaman_info'))
-
-        const res = await addLibraryApi({ userId: id, paperId: this.paper.id })
-        console.log(res)
-        if (res.code === 0) {
-          this.$Message.success('收藏成功')
-        } else {
-          this.$Message.error(res.message)
+        if (!this.paperCollected) { // 该片论文未被收藏
+          const res = await addLibraryApi({ userId: id, paperId: this.$route.params.arxivId }) // 将论文加入library
+          console.log(res)
+          if (res.code === 0) {
+            this.$Message.success('收藏成功')
+            this.judgePaperCollected() // 重新判断论文收藏情况
+          } else {
+            this.$Message.error(res.message)
+          }
+          sendEventDataApi({ // 发送收藏事件
+            event_type: 'Click',
+            event: '$Collect',
+            userId: id,
+            paperId: this.$route.params.arxivId
+          })
+        } else { // 该片论文已经被收藏
+          const res = await deleteLibraryApi({ userId: id, paperId: this.$route.params.arxivId }) // 将library数据库中deleted改为1
+          if (res.code === 0) {
+            this.$Message.success('已取消收藏')
+            this.judgePaperCollected()
+          } else {
+            this.$Message.error(res.message)
+          }
         }
       } catch (e) {
         this.$Message.error(e)
@@ -167,6 +191,15 @@ export default {
     },
     async onFeedbackTapped () {
       this.$Message.success('点击反馈,暂不支持该服务')
+    },
+    async judgePaperCollected () {
+      const { id } = JSON.parse(window.localStorage.getItem('ideaman_info'))
+      const res = await isCollectedApi({ userId: id, paperId: this.$route.params.arxivId })
+      if (res.data) {
+        this.paperCollected = true
+      } else {
+        this.paperCollected = false
+      }
     }
   }
 }
