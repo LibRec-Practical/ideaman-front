@@ -35,7 +35,6 @@ let isApplogPluginReady = false; // 控制打点时机，在必要信息未准�
 let isDebugMod = false; // 测试环境
 let eventQueue = [] // 待发送队列
 
-
 const defaultPostData = {
   distinct_id: BLANK_STR, // 这次事件的唯一标识符，用于确定此次事件
   timeStamp: ZERO_NUMBER, // 上报时间戳
@@ -60,6 +59,31 @@ const defaultPostData = {
   }
 }
 
+/**
+ * 设置埋点上报服务器
+ * @param {string} server_url
+ */
+function setServerURL(server_url) {
+  // 回头加上正则判断，有意义且符合规则的url
+  if (server_url) {
+    XHR_SERVER_URL = server_url
+  } else {
+    console.log('XHR_SERVER_URL 不能设置为空')
+  }
+}
+
+/**
+ * 设置测试埋点上报服务器
+ * @param {string} dev_server_url
+ */
+function setDevServerURL(dev_server_url) {
+  // 回头加上正则判断，有意义且符合规则的url
+  if (dev_server_url) {
+    XHR_SERVER_URL_DEV = dev_server_url
+  } else {
+    console.log('XHR_SERVER_URL_DEV 不能设置为空')
+  }
+}
 
 /**
  * 设置埋点header
@@ -80,6 +104,7 @@ function setDefaultHeaderPostData(key, value) {
 
 /**
  * 初始化
+ * 若设置
  * @param {string} app_id
  * @param {string} app_secret
  * @param {boolean} isDebug
