@@ -36,6 +36,55 @@ let isDebugMod = false; // 测试环境
 let eventQueue = [] // 待发送队列
 
 const defaultPostData = {
+  user: {
+    web_id: '',
+    user_type: 12,
+    user_id: '',
+    user_is_login: false,
+    user_unique_id: '',
+  },
+  header: {
+    app_id: UNDEF,
+    app_name: UNDEF,
+    app_package: UNDEF,
+    app_channel: 'cn',
+    app_version: '',
+    ab_version: '',
+    app_language: 'zh-hant',
+    device_id: UNDEF,
+    os_name: 'android',
+    os_version: UNDEF,
+    device_model: UNDEF,
+    ab_client: UNDEF,
+    traffic_type: UNDEF,
+    utm_source: UNDEF,
+    utm_medium: UNDEF,
+    utm_campaign: UNDEF,
+    headers: {
+      platform: UNDEF,
+      sdk_version: UNDEF,
+      browser: UNDEF,
+      browser_version: UNDEF,
+      region: UNDEF,
+      province: UNDEF,
+      city: UNDEF,
+      language: UNDEF,
+      timezone: UNDEF,
+      tz_offset: UNDEF,
+      resolution: UNDEF,
+      screen_height: UNDEF,
+      screen_width: UNDEF,
+      referrer: UNDEF,
+      referrer_host: UNDEF,
+      custom: {},
+    }
+  },
+  events: [],
+  verbose: 0, // 1为开启debug模式
+  caller: ''
+};
+
+const defaultPostData = {
   distinct_id: BLANK_STR, // 这次事件的唯一标识符，用于确定此次事件
   timeStamp: ZERO_NUMBER, // 上报时间戳
   event_type: BLANK_STR, // 用来表示事件的类型，这里是追踪，应该填入追踪事件定义的事件id，但由于目前还未确定是否固定事件类型，因此暂时全部使用字符串代替
