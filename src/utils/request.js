@@ -6,7 +6,8 @@ import store from '../store'
 axios.defaults.withCredentials = true // 允许携带cookie
 
 const axiosInstance = axios.create({
-  baseURL: overallConfig.url.dev
+  baseURL: overallConfig.url.dev,
+  withCredentials: false
 })
 
 axiosInstance.interceptors.request.use(config => {

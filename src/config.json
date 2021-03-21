@@ -1,10 +1,10 @@
 {
     "url": {
-        "dev": "http://localhost:3000/",
-        "prod": "http://rs.lalxyy.me:11220/"
+        "dev": "http://139.155.177.218:4008/",
+        "prod": "http://139.155.177.218:4008/"
     },
     "dcp_url": {
-        "dev": "http://49.232.210.208:7000/",
+        "dev": "http://139.155.177.218:7000/",
         "prod": "http://localhost:7000/"
     },
     "login_left_desc": {
